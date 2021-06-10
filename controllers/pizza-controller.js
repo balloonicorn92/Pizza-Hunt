@@ -5,6 +5,12 @@ const pizzaController = {
     //get all the pizzas
     getAllPizzas(req, res) {
         Pizza.find({})
+        .populate({
+            path: 'comments',
+            select: '-__v' // dont bring over the __v field from comments
+        })
+        .select('-__v') //dont print out the __v field from pizzas either
+        .sort({ _id: -1 }) // display the pizzas is DESC order by id
         .then(dbPizzaData => res.json(dbPizzaData))
         .catch( err => {
             console.log(err);
@@ -15,6 +21,11 @@ const pizzaController = {
     //get one pizza by its ID
     getPizzaById({ params }, res){
         Pizza.findOne({  _id: params.id })
+        .populate({
+            path: 'comments',
+            select: '-__v'
+        })
+        .select('-__v')
         .then(dbPizzaData => {
             if(!dbPizzaData) {
                 res.status(404).json({ message: 'No pizza found with this ID' })
