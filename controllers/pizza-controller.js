@@ -38,6 +38,7 @@ const pizzaController = {
 
     //update pizza by id
     updatePizza({ params, body }, res){
+        //the "where" in mongoose comes first {_id: params.id} THEN the updated data 'body' THEN any options on how data should be returned {new: true}
         Pizza.findOneAndUpdate({ _id: params.id}, body, { new: true }) //new: true instructs mongoose to return the new version of tthe document
         .then(dbPizzaData => {
             if (!dbPizzaData){
