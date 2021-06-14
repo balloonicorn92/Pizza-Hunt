@@ -43,13 +43,13 @@ const pizzaController = {
     createPizza({ body }, res){
         Pizza.create(body)
         .then(dbPizzaData => res.json(dbPizzaData))
-        .catch(res => res.status(400).json(err))
+        .catch(err => res.status(400).json(err))
     },
 
     //update pizza by id
     updatePizza({ params, body }, res){
         //the "where" in mongoose comes first {_id: params.id} THEN the updated data 'body' THEN any options on how data should be returned {new: true}
-        Pizza.findOneAndUpdate({ _id: params.id}, body, { new: true }) //new: true instructs mongoose to return the new version of tthe document
+        Pizza.findOneAndUpdate({ _id: params.id}, body, { new: true, runValidators: true }) //new: true instructs mongoose to return the new version of tthe document
         .then(dbPizzaData => {
             if (!dbPizzaData){
             res.status(404).json({ message: 'No pizza found with this ID'})

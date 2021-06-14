@@ -66,6 +66,8 @@ const handlePizzaSubmit = event => {
     console.log(postResponse)
   }).catch( err => {
     console.log(err)
+    //this is from indexedDB idb.js
+    saveRecord(formData)
   })
 };
 
